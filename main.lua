@@ -104,6 +104,7 @@ titlescreen = require "game.states.TitleState"
 mainmenu = require "game.states.MainMenuState"
 optionsmenu = require "game.states.OptionsState"
 playstate = require "game.states.PlayState"
+freeplaystate= require "game.states.FreePlayState"
 
 local curState = titlescreen
 

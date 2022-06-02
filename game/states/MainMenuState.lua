@@ -82,6 +82,8 @@ function state.update(dt)
                         switchState(playstate)
                     elseif curSelected == 4 then
                         switchState(optionsmenu)
+                    elseif curSelected==2 then
+                        switchState(freeplaystate)
                     end
                 end, 1)
             end

@@ -226,7 +226,6 @@ function state.songEnd() endSong() end
 
 function state.update(dt)
     -- bf:update(dt)
-
     utils.callGroup(playerStrums, "update", dt)
     utils.callGroup(opponentStrums, "update", dt)
 
@@ -298,7 +297,8 @@ end
 
 function state.draw()
     -- bf:draw()
-
+    love.graphics.print(playstate.SONG.player2,250,450,0,5,5)
+    love.graphics.print(playstate.SONG.player1,1000,450,0,5,5)
     utils.callGroup(playerStrums, "draw")
     utils.callGroup(opponentStrums, "draw")
 
