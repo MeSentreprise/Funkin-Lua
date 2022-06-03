@@ -5,10 +5,13 @@ local funniText
 local menu
 local selected
 local rz
-
+local rgb
+local oldrgb
 function state.load()
     rz=1
+    rgb={255,255,255}
     menuBG = paths.getImage("menuDesat")
+    menuBGBlue = paths.getImage("menuBGBlue")
     _c.add(menuBG)
     funniText = alphabet("Tutorial", true)
     funniText2 = alphabet("Bopeebo", true)
@@ -25,6 +28,7 @@ local addX = 15
 local addY = 15
 
 function state.update(dt)
+
     selectred:update(dt)    
 
     if input:pressed "back" then
@@ -75,17 +79,17 @@ function state.update(dt)
 end
 
 function state.draw()
-    love.graphics.setColor(234 / 255, 113 / 255, 253 / 255)
-    love.graphics.draw(menuBG, 0, 0, 0, 1.1, 1.1)
-    love.graphics.setColor(1, 1, 1)
-    for k,v in ipairs(menu) do
-        love.graphics.
+
+    if selectred==funniText2 or selectred==funniText3 or selectred==funniText4 then
+        rgb={45/255,105/255,225/255,0.5}
+    elseif selectred==funniText5 or selectred==funniText6 then
+        rgb={0/255,0/255,25/255} 
+    end
+    love.graphics.setColor(rgb)
+    love.graphics.draw(menuBG)
+    for k,v in ipairs(menu) do  
         v:draw(addX,addY)
-        if k==1 then
-            v.y=35
-        else
-            v.y=k*70
-        end
+        v.y=k*90
         v.x=50
     end
 end
