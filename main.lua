@@ -28,6 +28,7 @@ baton = require "lib.baton"
 tick = require "lib.tick"
 tween = require "lib.tween"
 json = require "lib.dkjson"
+Camera=require "lib.camera"
 require "lib.tesound"
 
 input = baton.new({

@@ -7,11 +7,15 @@ local selected
 local rz
 local rgb
 local oldrgb
+
+
+local function lerp(a, b, x) return a + (b - a)*x end
+
+
 function state.load()
     rz=1
-    rgb={255,255,255}
+    rgb={178/255,34/255,34/255}
     menuBG = paths.getImage("menuDesat")
-    menuBGBlue = paths.getImage("menuBGBlue")
     _c.add(menuBG)
     funniText = alphabet("Tutorial", true)
     funniText2 = alphabet("Bopeebo", true)
@@ -21,6 +25,9 @@ function state.load()
     funniText6 = alphabet("South", true)
     funniText7 = alphabet("Monster", true)
     menu={funniText,funniText2,funniText3,funniText4,funniText5,funniText6,funniText7}
+    for k,v in ipairs(menu) do
+        v.y=90*k
+    end
     selectred=menu[1]
 end
 
@@ -28,7 +35,7 @@ local addX = 15
 local addY = 15
 
 function state.update(dt)
-
+    selectred.alpha=1
     selectred:update(dt)    
 
     if input:pressed "back" then
@@ -36,62 +43,51 @@ function state.update(dt)
         switchState(mainmenu)
     end
     if input:pressed "accept" then
-        if rz==2 then
-            playstate.SONG = song.loadFromJson("bopeebo")
+            playstate.SONG = song.loadFromJson(selectred.text)
             switchState(playstate)
-        elseif rz==1 then
-            playstate.SONG = song.loadFromJson("tutorial")
-            switchState(playstate)
-        elseif rz==3 then
-            playstate.SONG = song.loadFromJson("fresh")
-            switchState(playstate)
-        elseif rz==4 then
-            playstate.SONG = song.loadFromJson("dad-battle")
-            switchState(playstate)
-        elseif rz==5 then
-            playstate.SONG = song.loadFromJson("spookeez")
-            switchState(playstate)
-        elseif rz==6 then
-            playstate.SONG = song.loadFromJson("south")
-            switchState(playstate)
-        elseif rz==7 then
-            playstate.SONG = song.loadFromJson("monster")
-            switchState(playstate)
-        end
     end
     if input:pressed "up" then
         utils.playSound(scrollSnd)
         rz=rz-1
-        if rz<1 then
-            rz=table.maxn(menu)
-        end
         selectred=menu[rz]
+        for k,v in ipairs(menu) do
+            v.y=v.y+rz*10
+        end
     end
     if input:pressed "down" then
         utils.playSound(scrollSnd)
         rz=rz+1
-        if rz>table.maxn(menu) then
-            rz=1
-        end
         selectred=menu[rz]
-        
+        for k,v in ipairs(menu) do
+            v.y=v.y-rz*10
+        end
     end
 end
 
 function state.draw()
-
-    if selectred==funniText2 or selectred==funniText3 or selectred==funniText4 then
-        rgb={45/255,105/255,225/255,0.5}
+    if selectred==funniText then
+        rgb[1]=lerp(rgb[1],178/255,0.05)
+        rgb[2]=lerp(rgb[2],34/255,0.05)
+        rgb[3]=lerp(rgb[3],34/255,0.05)
+    elseif selectred==funniText2 or selectred==funniText3 or selectred==funniText4 then
+        rgb[1]=lerp(rgb[1],45/255,0.05)
+        rgb[2]=lerp(rgb[2],105/255,0.05)
+        rgb[3]=lerp(rgb[3],225/255,0.05)
     elseif selectred==funniText5 or selectred==funniText6 then
-        rgb={0/255,0/255,25/255} 
+        rgb[1]=lerp(rgb[1],0/255,0.05)
+        rgb[2]=lerp(rgb[2],0/255,0.05)
+        rgb[3]=lerp(rgb[3],25/255,0.05)
     end
     love.graphics.setColor(rgb)
     love.graphics.draw(menuBG)
-    for k,v in ipairs(menu) do  
-        v:draw(addX,addY)
-        v.y=k*90
+    
+    for k,v in ipairs(menu) do
+        v:draw(addX,addY,50/255)
         v.x=50
+        v.alpha=0.4
     end
+
+    selectred.alpha=1
 end
 
 return state

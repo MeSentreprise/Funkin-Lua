@@ -198,8 +198,14 @@ local function startSong()
     playVocals()
 end
 
+function state.beatHit()
+    bf:dance()
+    dad:dance()
+end
+
 function state.load()
-    -- bf = character:new("bf", 700, 250)
+    bf = character:new("bf",0,0)
+    dad=character:new(playstate.SONG.player2,0,0)
 
     BGMusic:pause()
     BGMusic:setTime(0)
@@ -225,7 +231,9 @@ end
 function state.songEnd() endSong() end
 
 function state.update(dt)
-    -- bf:update(dt)
+    bf:update(dt)
+    dad:update(dt)
+
     utils.callGroup(playerStrums, "update", dt)
     utils.callGroup(opponentStrums, "update", dt)
 
@@ -235,10 +243,10 @@ function state.update(dt)
 
     if input:pressed "back" then endSong() end
 
-    -- if input:pressed "left" then bf:playAnim("singLEFT", true) end
-    -- if input:pressed "right" then bf:playAnim("singRIGHT", true) end
-    -- if input:pressed "up" then bf:playAnim("singUP", true) end
-    -- if input:pressed "down" then bf:playAnim("singDOWN", true) end
+    if input:pressed "left" then bf:playAnim("singLEFT", true) 
+    elseif input:pressed "right" then bf:playAnim("singRIGHT", true)
+    elseif input:pressed "up" then bf:playAnim("singUP", true) 
+    elseif input:pressed "down" then bf:playAnim("singDOWN", true) end
 
     if input:pressed "accept" then
         if BGMusic.playing then
@@ -296,9 +304,8 @@ local function drawNote(daNote)
 end
 
 function state.draw()
-    -- bf:draw()
-    love.graphics.print(playstate.SONG.player2,250,450,0,5,5)
-    love.graphics.print(playstate.SONG.player1,1000,450,0,5,5)
+    bf:draw(700,200)
+    dad:draw(0,0)
     utils.callGroup(playerStrums, "draw")
     utils.callGroup(opponentStrums, "draw")
 

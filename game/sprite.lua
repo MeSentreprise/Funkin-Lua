@@ -62,12 +62,13 @@ function Sprite:new(path, x, y)
 end
 
 function Sprite:load(path)
+    print(path)
     if path == nil then path = "" end
-
-    if path ~= "" and path ~= self.path then
         self.path = path
+        print("[sprite.lua] path=".. path)
 
         local lePath = path .. ".xml"
+        print("[sprite.lua] lePath=".. lePath)
         assert(love.filesystem.getInfo(lePath) ~= nil,
                "'" .. lePath .. "' was not found!")
 
@@ -83,10 +84,7 @@ function Sprite:load(path)
         lePath = self.path .. ".png"
         assert(love.filesystem.getInfo(lePath) ~= nil,
                "'" .. lePath .. "' was not found!")
-        self.image = _c.getImage(lePath)
-    else
-        print("nope")
-    end
+        self.image = _c.getImage(lePath)    
 
     return self
 end
@@ -111,11 +109,13 @@ function Sprite:update(dt)
     end
 end
 
-function Sprite:draw(addX, addY)
+function Sprite:draw(addX, addY,alpha)
     if not self.visible then return end
 
     if addX == nil then addX = 0 end
     if addY == nil then addY = 0 end
+    if alpha == nil then alpha = 1 end
+
 
     if self.curAnim ~= nil and not self.destroyed then
         local spriteNum = math.floor(self.curFrame)
@@ -148,7 +148,7 @@ function Sprite:draw(addX, addY)
         local animOffset = self.animOffsets[self.curAnim.name]
         if animOffset == nil then animOffset = {0, 0} end
 
-        love.graphics.setColor(255, 255, 255, self.alpha)
+        love.graphics.setColor(255, 255, 255,alpha)
         love.graphics.draw(self.image, frame.quad, x - self.offsetX + addX,
                            y - self.offsetY + addY, self.angle, self.sizeX,
                            self.sizeY, offsetX + animOffset[1],

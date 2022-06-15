@@ -12,7 +12,7 @@ end
 
 function Alphabet:draw()
     if not self.destroyed then
-        utils.callGroup(self.letters, "draw", self.x, self.y)
+        utils.callGroup(self.letters, "draw", self.x, self.y,self.alpha)
     end
 end
 
@@ -52,6 +52,9 @@ function Alphabet:changeText(text)
 
             local letter = sprite:new(paths.atlas("alphabet"), xPos,
                                   self.isBold and coolY or coolY + 15)
+
+            letter.alpha=self.isAlpha
+
 
             local animName
             if self.isBold then
@@ -159,14 +162,14 @@ function Alphabet:destroy()
     return self
 end
 
-return function(text, bold, x, y)
+return function(text, bold, x, y,alpha)
     local self = setmetatable({
         x = x or 0,
         y = y or 0,
 
         text = "",
         isBold = bold or false,
-
+        isAlpha= alpha or 1,
         destroyed = false,
 
         letters = {},
