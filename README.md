@@ -7,7 +7,7 @@ Yeah, that's what Stilic wanted to do, I'm gonna make Friday Night Funkin + Wii,
 
 - Stilic - _Newer repo owner, he's very cool._
 - Arthur Animations/Code - _Main idea, logo creator, code helper (kind of)._
-- Some. - _I have the project now, I guess I have to talk with the owner Stilic but hey i'm coding it
+- Some. - _I have the project now, I guess I have to talk with the owner Stilic but hey ,i'm coding it._
 
 ## FAQ
 
