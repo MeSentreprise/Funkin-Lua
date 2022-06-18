@@ -21,11 +21,11 @@ function Character:new(char, x, y)
     if self.curCharacter == "bf" then
         --self:load(paths.atlas("BOYFRIEND"))
         --self:load("BOYFRIEND")
-        self:addByPrefix("idle", "BF idle dance", nil, false)
-        self:addByPrefix("singUP", "BF NOTE UP0", nil, false)
-        self:addByPrefix("singLEFT", "BF NOTE LEFT0", nil, false)
-        self:addByPrefix("singRIGHT", "BF NOTE RIGHT0", nil, false)
-        self:addByPrefix("singDOWN", "BF NOTE DOWN0", nil, false)
+        self:addByPrefix("idle", "BF idle dance", nil, true)
+        self:addByPrefix("singUP", "BF NOTE UP0", nil, true)
+        self:addByPrefix("singLEFT", "BF NOTE LEFT0", nil, true)
+        self:addByPrefix("singRIGHT", "BF NOTE RIGHT0", nil, true)
+        self:addByPrefix("singDOWN", "BF NOTE DOWN0", nil, true)
 
         self:addOffset("idle", -5)
         self:addOffset("singUP", -29, 27)
@@ -38,7 +38,7 @@ function Character:new(char, x, y)
     if self.curCharacter == "dad" then
         --self:load(paths.atlas("BOYFRIEND"))
         --self:load("BOYFRIEND")
-        self:addByPrefix("idle", "Dad idle dance", nil, false)
+        self:addByPrefix("idle", "Dad idle dance", nil, true)
         self:addByPrefix("singUP", "Dad Sing Note UP0", nil, false)
         self:addByPrefix("singLEFT", "Dad Sing Note LEFT0", nil, false)
         self:addByPrefix("singRIGHT", "Dad Sing Note RIGHT0", nil, false)
@@ -55,7 +55,7 @@ function Character:new(char, x, y)
     if self.curCharacter == "spooky" then
         --self:load(paths.atlas("BOYFRIEND"))
         --self:load("BOYFRIEND")
-        self:addByPrefix("idle", "spooky dance idle", nil, false)
+        self:addByPrefix("idle", "spooky dance idle", nil, true)
         self:addByPrefix("singUP", "spooky UP NOTE0", nil, false)
         self:addByPrefix("singLEFT", "note sing left0", nil, false)
         self:addByPrefix("singRIGHT", "spooky sing right0", nil, false)
@@ -72,7 +72,7 @@ function Character:new(char, x, y)
     if self.curCharacter == "mom" then
         --self:load(paths.atlas("BOYFRIEND"))
         --self:load("BOYFRIEND")
-        self:addByPrefix("idle", "Mom idle", nil, false)
+        self:addByPrefix("idle", "Mom idle", nil, true      )
         self:addByPrefix("singUP", "Mom Up0 ", nil, false)
         self:addByPrefix("singLEFT", "Mom Left Pose0", nil, false)
         self:addByPrefix("singRIGHT", "Mom Pose Left0", nil, false)
@@ -107,6 +107,6 @@ function Character:addOffset(anim, x, y)
     self.offsets[anim] = {x, y}
 end
 
-function Character:dance() self:playAnim("idle", true) end
+function Character:dance() self:playAnim("idle", false) end
 
 return Character

@@ -332,7 +332,7 @@ function Player:get(name)
 end
 
 -- gets whether a control or axis pair is "held down"
-function Player:down(name)
+function Player:down(name)	
 	if isTransitioning then
 		return false
 	end

@@ -30,6 +30,17 @@ local opponentStrums
 
 local healthBar
 
+
+
+local function RemoveVal(tbl, val) 
+    for i,v in pairs(tbl) do
+        if v == val then
+            table.remove(tbl,i)
+            break
+        end
+    end
+end
+
 local function generateStaticArrows(player)
     for i = 1, 4 do
         local leData = i - 1
@@ -199,8 +210,11 @@ local function startSong()
 end
 
 function state.beatHit()
+    if not string.find(dad.curAnim.name,"sing") then
+        dad:dance()
+    end
     bf:dance()
-    dad:dance()
+
 end
 
 function state.load()
@@ -231,6 +245,7 @@ end
 function state.songEnd() endSong() end
 
 function state.update(dt)
+
     bf:update(dt)
     dad:update(dt)
 
@@ -243,10 +258,11 @@ function state.update(dt)
 
     if input:pressed "back" then endSong() end
 
-    if input:pressed "left" then bf:playAnim("singLEFT", true) 
-    elseif input:pressed "right" then bf:playAnim("singRIGHT", true)
-    elseif input:pressed "up" then bf:playAnim("singUP", true) 
-    elseif input:pressed "down" then bf:playAnim("singDOWN", true) end
+    if input:down "left" then bf:playAnim("singLEFT", true)
+    elseif input:down "right" then bf:playAnim("singRIGHT", true)
+    elseif input:down "up" then bf:playAnim("singUP", true) 
+    elseif input:down "down" then bf:playAnim("singDOWN", true) end
+
 
     if input:pressed "accept" then
         if BGMusic.playing then
@@ -267,6 +283,7 @@ function state.update(dt)
         end
     end
 end
+
 
 local function drawNote(daNote)
     fakeNote:loadNote(daNote)
@@ -292,7 +309,7 @@ local function drawNote(daNote)
         if daNote.isSustainNote then
             fakeNote.x = fakeNote.x + fakeNote.width / 4.25
         end
-    end
+    end 
     if daNote.copyY then
         fakeNote.y = strum.y + math.sin(angleDir) * daNote.distance
         if daNote.isSustainNote then
@@ -300,7 +317,27 @@ local function drawNote(daNote)
         end
     end
 
-    if not utils.offscreen(fakeNote) then fakeNote:draw() end
+    if not utils.offscreen(fakeNote) then 
+        fakeNote:draw()
+        if not daNote.mustPress and daNote.distance<0 then
+            opponentStrums[daNote.noteData + 1]:playAnim('pressed',true)
+            RemoveVal(notes,daNote)
+            if daNote.noteData==0 then
+                dad:playAnim('singLEFT',true)
+            end
+            if daNote.noteData==1 then
+                dad:playAnim('singDOWN',true)
+            end
+            if daNote.noteData==2 then
+                dad:playAnim('singUP',true)
+            end
+            if daNote.noteData==3 then
+                dad:playAnim('singRIGHT',true)
+            end
+        else
+            opponentStrums[daNote.noteData + 1]:playAnim('static',true)
+        end
+    end
 end
 
 function state.draw()
@@ -310,9 +347,9 @@ function state.draw()
     utils.callGroup(opponentStrums, "draw")
 
     if generatedMusic then
-        for n, daNote in ipairs(notes) do
-            drawNote(daNote)
-        end
+            for n, daNote in ipairs(notes) do
+                drawNote(daNote)
+            end
     end
 
     love.graphics.draw(healthBar, lovesize.getWidth() / 2 - healthBar:getWidth() / 2, 650)
