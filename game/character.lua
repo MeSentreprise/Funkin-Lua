@@ -44,11 +44,13 @@ function Character:new(char, x, y)
         self:addByPrefix("singRIGHT", "Dad Sing Note RIGHT0", nil, false)
         self:addByPrefix("singDOWN", "Dad Sing Note DOWN0", nil, false)
 
-        self:addOffset("idle", -5)
-        self:addOffset("singUP", -29, 27)
-        self:addOffset("singRIGHT", -38, -7)
-        self:addOffset("singLEFT", 12, -6)
-        self:addOffset("singDOWN", -10, -50)
+
+        self:addOffset('idle');
+        self:addOffset("singUP", -6, 50);
+        self:addOffset("singRIGHT", 0, 27);
+        self:addOffset("singLEFT", -10, 10);
+        self:addOffset("singDOWN", 0, -30);
+
 
     end
 

@@ -32,6 +32,8 @@ function paths.xml(path) return paths.getPath(path .. ".xml") end
 
 function paths.json(path) return paths.getPath("data/" .. path .. ".json") end
 
+function paths.text(path) return paths.getPath('data/' .. path .. '.txt') end
+
 function paths.font(path) return paths.getPath("fonts/" .. path) end
 
 return paths

@@ -210,11 +210,8 @@ local function startSong()
 end
 
 function state.beatHit()
-    if not string.find(dad.curAnim.name,"sing") then
-        dad:dance()
-    end
+    dad:dance()
     bf:dance()
-
 end
 
 function state.load()
@@ -320,22 +317,16 @@ local function drawNote(daNote)
     if not utils.offscreen(fakeNote) then 
         fakeNote:draw()
         if not daNote.mustPress and daNote.distance<0 then
-            opponentStrums[daNote.noteData + 1]:playAnim('pressed',true)
-            RemoveVal(notes,daNote)
             if daNote.noteData==0 then
-                dad:playAnim('singLEFT',true)
+                dad:playAnim('singLEFT',false)
+            elseif daNote.noteData==1 then
+                dad:playAnim('singDOWN',false)
+            elseif daNote.noteData==2 then
+                dad:playAnim('singUP',false)
+            elseif daNote.noteData==3 then
+                dad:playAnim('singRIGHT',false)
             end
-            if daNote.noteData==1 then
-                dad:playAnim('singDOWN',true)
-            end
-            if daNote.noteData==2 then
-                dad:playAnim('singUP',true)
-            end
-            if daNote.noteData==3 then
-                dad:playAnim('singRIGHT',true)
-            end
-        else
-            opponentStrums[daNote.noteData + 1]:playAnim('static',true)
+            RemoveVal(notes,daNote)
         end
     end
 end
